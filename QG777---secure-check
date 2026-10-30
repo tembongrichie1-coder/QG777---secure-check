@@ -1,0 +1,46 @@
+import hashlib
+import datetime
+import time
+import os
+
+print("=== QG777 PHONE BODYCAM SYSTEM V3 ===")
+print("Systeme Bodycam Souverain - Telephone")
+print("=====================================")
+
+# Demande le nom de ta video
+nom_video = input("Nom de ta video en cours (ex: VID_20261030.mp4) : ")
+if not nom_video:
+    nom_video = f"VID_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.mp4"
+
+print(f"\n[SYSTEME ACTIF] Filming: {nom_video}")
+print(f"[SYSTEME ACTIF] Scellage toutes les 30 secondes...")
+print(f"[SYSTEME ACTIF] Lance ton Appareil Photo en mode Video maintenant !\n")
+
+# Boucle de scellage
+try:
+    compteur = 1
+    while True:
+        maintenant = datetime.datetime.now()
+        heure_str = maintenant.strftime("%d/%m/%Y %H:%M:%S")
+        
+        # Cree l'empreinte unique
+        data_brute = f"QG777-{nom_video}-{heure_str}-{compteur}-TEMBONG-RICHIE"
+        hash_preuve = hashlib.sha256(data_brute.encode()).hexdigest().upper()
+        
+        log_ligne = f"[PREUVE SCELLEE {compteur}] {heure_str} | Video: {nom_video} | Agent: QG777 | HASH: 0x{hash_preuve[:12]} | Full: {hash_preuve}"
+        
+        print(log_ligne)
+        
+        # Ecrit dans le fichier preuve
+        with open("qg777_bodycam_proof.log", "a", encoding="utf-8") as f:
+            f.write(log_ligne + "\n")
+        
+        compteur += 1
+        time.sleep(30) # Scelle toutes les 30 secondes
+
+except KeyboardInterrupt:
+    print("\n\n=== FIN DE RONDE ===")
+    print(f"Video: {nom_video}")
+    print(f"Preuve generee: qg777_bodycam_proof.log")
+    print(f"Total preuves: {compteur-1}")
+    print("Systeme QG777 - Preuve Inviolable")
